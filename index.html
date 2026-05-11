@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlphX Trading – Premium Membership</title>
+    <meta name="description"
+        content="Join AlphX Premium Trading Community. Get expert swing, positional, BTST, penny stock and F&O trade calls.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">Alph<span class="accent">X</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#plans">Plans</a>
+                <a href="#results">Results</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <button class="nav-cta" onclick="scrollToPlans()">Join Now</button>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#features" onclick="closeMobileMenu()">Features</a>
+            <a href="#plans" onclick="closeMobileMenu()">Plans</a>
+            <a href="#results" onclick="closeMobileMenu()">Results</a>
+            <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+            <button class="nav-cta" onclick="scrollToPlans(); closeMobileMenu();">Join Now</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Live Trading Community
+            </div>
+            <h1 class="hero-title">
+                Trade Smarter with
+                <span class="gradient-text">AlphX Premium</span>
+                Signals
+            </h1>
+            <p class="hero-subtitle">
+                Get real-time <strong>Swing</strong>, <strong>Positional</strong>, <strong>BTST</strong>, <strong>Penny
+                    Stock</strong> & <strong>F&O</strong> trade calls from experienced traders. Join 2,000+ active
+                members.
+            </p>
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-glow" onclick="scrollToPlans()">
+                    <span>Get Started</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </button>
+                <a href="#features" class="btn btn-outline">
+                    <span>Learn More</span>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value" data-count="2000">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Active Members</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-value" data-count="85">0</span><span class="stat-suffix">%</span>
+                    <span class="stat-label">Accuracy Rate</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-value" data-count="500">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Calls / Month</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="trading-card">
+                <div class="card-header">
+                    <span class="card-tag bullish">▲ BULLISH</span>
+                    <span class="card-time">Just now</span>
+                </div>
+                <div class="card-stock">TATAMOTORS</div>
+                <div class="card-price">₹782.50</div>
+                <div class="card-details">
+                    <div><span>Entry</span><strong>₹775 – ₹785</strong></div>
+                    <div><span>Target</span><strong>₹820 / ₹850</strong></div>
+                    <div><span>SL</span><strong>₹755</strong></div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-type">⚡ BTST Call</span>
+                    <span class="card-roi">+9.6% potential</span>
+                </div>
+            </div>
+            <div class="trading-card card-mini">
+                <div class="card-header">
+                    <span class="card-tag bullish">▲ BUY</span>
+                    <span class="card-time">2m ago</span>
+                </div>
+                <div class="card-stock">RELIANCE 2800 CE</div>
+                <div class="card-price">₹125.00</div>
+                <div class="card-footer">
+                    <span class="card-type">🎯 F&O Call</span>
+                    <span class="card-roi">+35% potential</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Why AlphX?</span>
+                <h2>Everything You Need to <span class="gradient-text">Win in Markets</span></h2>
+                <p>Our premium channels cover all segments with precision-timed entries and exits.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon">📊</div>
+                    <h3>Swing & Positional</h3>
+                    <p>Medium to long-term trades with clear entry, targets, and stop-loss levels. Hold for 2-15 days
+                        for maximum gains.</p>
+                </div>
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon">🌙</div>
+                    <h3>BTST Calls</h3>
+                    <p>Buy Today, Sell Tomorrow trades identified using technical breakout patterns. Quick overnight
+                        profits.</p>
+                </div>
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon">💎</div>
+                    <h3>Penny Stocks</h3>
+                    <p>Hidden gems in low-cap stocks with multi-bagger potential. Carefully researched for quality
+                        picks.</p>
+                </div>
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon">🎯</div>
+                    <h3>F&O Trades</h3>
+                    <p>Options and futures calls with defined risk-reward. Intraday and positional F&O strategies for
+                        active traders.</p>
+                </div>
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon">📱</div>
+                    <h3>Real-Time Alerts</h3>
+                    <p>Instant Telegram notifications so you never miss an entry. Every call comes with complete
+                        analysis.</p>
+                </div>
+                <div class="feature-card" data-aos>
+                    <div class="feature-icon">🧠</div>
+                    <h3>Market Education</h3>
+                    <p>Learn chart reading, candlestick patterns, and risk management strategies to become self-reliant.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results / Proof Section -->
+    <section class="results" id="results">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Track Record</span>
+                <h2>Real <span class="gradient-text">Proven Results</span></h2>
+                <p>Don't just take our word for it — see actual screenshots from our trades. Click to zoom.</p>
+            </div>
+            <div class="proof-ticker">
+                <div class="ticker-track-img">
+                    <!-- Proof 1-11 + Extra Photo -->
+                    <div class="proof-card" onclick="openProof('proof/1.jpg')"><img src="proof/1.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/2.jpg')"><img src="proof/2.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/3.jpg')"><img src="proof/3.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/4.jpg')"><img src="proof/4.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/5.jpg')"><img src="proof/5.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/6.jpg')"><img src="proof/6.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/7.jpg')"><img src="proof/7.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/8.jpg')"><img src="proof/8.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/9.png')"><img src="proof/9.png" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/10.jpg')"><img src="proof/10.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/11.jpg')"><img src="proof/11.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/photo_2026-05-11_20-20-19.jpg')"><img src="proof/photo_2026-05-11_20-20-19.jpg" alt="Proof"></div>
+                    
+                    <!-- DUPLICATE FOR SEAMLESS LOOP -->
+                    <div class="proof-card" onclick="openProof('proof/1.jpg')"><img src="proof/1.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/2.jpg')"><img src="proof/2.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/3.jpg')"><img src="proof/3.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/4.jpg')"><img src="proof/4.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/5.jpg')"><img src="proof/5.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/6.jpg')"><img src="proof/6.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/7.jpg')"><img src="proof/7.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/8.jpg')"><img src="proof/8.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/9.png')"><img src="proof/9.png" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/10.jpg')"><img src="proof/10.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/11.jpg')"><img src="proof/11.jpg" alt="Proof"></div>
+                    <div class="proof-card" onclick="openProof('proof/photo_2026-05-11_20-20-19.jpg')"><img src="proof/photo_2026-05-11_20-20-19.jpg" alt="Proof"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plans Section -->
+    <section class="plans" id="plans">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Pricing</span>
+                <h2>Choose Your <span class="gradient-text">Trading Edge</span></h2>
+                <p>Select the plan that fits your trading style. All plans include instant Telegram access.</p>
+            </div>
+            <div class="plans-grid">
+                <!-- Plan 1: Equity -->
+                <div class="plan-card" data-aos>
+                    <div class="plan-badge">Equity</div>
+                    <div class="plan-icon">⚡</div>
+                    <h3 class="plan-name">Alpha Swing & Positional</h3>
+                    <p class="plan-desc">Swing, Positional, BTST & Penny Stock calls with full analysis.</p>
+                    <div class="plan-price">
+                        <span class="currency">₹</span>
+                        <span class="amount">2,000</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> Daily Swing & BTST Calls</li>
+                        <li><span class="check">✓</span> Positional Picks (2-15 days)</li>
+                        <li><span class="check">✓</span> Penny Stock Alerts</li>
+                        <li><span class="check">✓</span> Entry / Target / SL Levels</li>
+                        <li><span class="check">✓</span> Market Outlook & Updates</li>
+                        <li><span class="check">✓</span> Risk Management Tips</li>
+                    </ul>
+                    <button class="btn btn-plan" onclick="openPayment('equity')">
+                        Subscribe Now
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Plan 2: F&O Premium (Popular) -->
+                <div class="plan-card popular" data-aos>
+                    <div class="popular-tag">🔥 Most Popular</div>
+                    <div class="plan-badge">F&O</div>
+                    <div class="plan-icon">🎯</div>
+                    <h3 class="plan-name">AlphX Premium F&O</h3>
+                    <p class="plan-desc">Options & Futures calls with high accuracy, risk-defined strategies.</p>
+                    <div class="plan-price">
+                        <span class="currency">₹</span>
+                        <span class="amount">2,500</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> Daily F&O Trade Calls</li>
+                        <li><span class="check">✓</span> Intraday Options Strategies</li>
+                        <li><span class="check">✓</span> Positional Option Calls</li>
+                        <li><span class="check">✓</span> NIFTY & BANKNIFTY Levels</li>
+                        <li><span class="check">✓</span> Live Market Commentary</li>
+                        <li><span class="check">✓</span> Priority Support</li>
+                        <li><span class="check">✓</span> Weekly Webinars</li>
+                    </ul>
+                    <button class="btn btn-plan btn-popular" onclick="openPayment('fno')">
+                        Subscribe Now
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Plan 3: Combo -->
+                <div class="plan-card" data-aos>
+                    <div class="plan-badge">Combo</div>
+                    <div class="plan-icon">💎</div>
+                    <h3 class="plan-name">Ultimate Combo</h3>
+                    <p class="plan-desc">Get access to BOTH channels — Equity + F&O at a discounted price.</p>
+                    <div class="plan-price">
+                        <span class="currency">₹</span>
+                        <span class="amount">3,500</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> Everything in Equity Plan</li>
+                        <li><span class="check">✓</span> Everything in F&O Plan</li>
+                        <li><span class="check">✓</span> Bonus: Market Education</li>
+                        <li><span class="check">✓</span> Dedicated Support</li>
+                        <li><span class="check">✓</span> Save ₹499 vs Separate</li>
+                    </ul>
+                    <button class="btn btn-plan" onclick="openPayment('combo')">
+                        Subscribe Now
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Plan 4: Discussion Group -->
+                <div class="plan-card" data-aos>
+                    <div class="plan-badge">Community</div>
+                    <div class="plan-icon">🤝</div>
+                    <h3 class="plan-name">Discussion Group</h3>
+                    <p class="plan-desc">Collaborate with talented traders. We charge a nominal fee to ensure commitment, as true value is overlooked when provided for free.</p>
+                    <div class="plan-price">
+                        <span class="currency">₹</span>
+                        <span class="amount">200</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> Peer-to-Peer Learning</li>
+                        <li><span class="check">✓</span> Expert Insights & Views</li>
+                        <li><span class="check">✓</span> Talent Collaboration</li>
+                        <li><span class="check">✓</span> Quality Networking</li>
+                        <li><span class="check">✓</span> Value-Driven Community</li>
+                    </ul>
+                    <button class="btn btn-plan" onclick="openPayment('discussion')">
+                        Subscribe Now
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">FAQ</span>
+                <h2>Frequently Asked <span class="gradient-text">Questions</span></h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>How will I receive trade calls?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>All trade calls are shared in real-time via our private Telegram channels. You'll receive
+                            instant notifications with entry price, target levels, and stop-loss. After successful
+                            payment, you'll get instant access links.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>What is the accuracy of calls?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our track record shows approximately 80-85% accuracy across all segments. However, past
+                            performance does not guarantee future results. We always recommend proper risk management
+                            and position sizing.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Can I get a refund?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Due to the nature of digital services and instant access, refunds are not available once the
+                            subscription is activated and Telegram access is granted. Please review all details before
+                            subscribing.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>How much capital do I need?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>For equity/swing trades, a minimum of ₹ 1,00,000 is recommended. For F&O trades, ₹ 50,000+ is
+                            suggested due to margin requirements. Always trade with capital you can afford to lose.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Is this SEBI registered?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No. We are NOT registered with SEBI (Securities and Exchange Board of India) as an investment
+                            advisor or research analyst. The calls shared are based on personal research and for
+                            educational purposes only. Please read the full disclaimer before subscribing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-icon">⚡</span>
+                        <span class="logo-text">Alph<span class="accent">X</span></span>
+                    </a>
+                    <p>Premium trading signals for the Indian stock market. Join the community of smart traders.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="#features">Features</a>
+                    <a href="#plans">Pricing</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Free Telegram Channels</h4>
+                    <a href="https://t.me/AlphXtrader" target="_blank">AlphX – Accuracy, Analysis, Action</a>
+                    <a href="https://t.me/RavikiranTalpha" target="_blank">⚡️THE ALPHA ANALYST⚡️</a>
+                </div>
+            </div>
+            <div class="footer-disclaimer" id="disclaimer">
+                <h5>⚠️ Important Disclaimer</h5>
+                <p>We are <strong>NOT registered with SEBI</strong> (Securities and Exchange Board of India) as an
+                    investment advisor, research analyst, or in any other capacity. The information, trade calls, and
+                    analysis shared through our Telegram channels and this website are purely for <strong>educational
+                        and informational purposes only</strong>. They do not constitute financial advice, investment
+                    recommendations, or solicitation to buy or sell any securities.</p>
+                <p>Trading and investing in the stock market involves substantial risk of loss and is not suitable for
+                    every investor. Past performance is not indicative of future results. You are solely responsible for
+                    your trading and investment decisions. We shall not be liable for any losses incurred by you. By
+                    subscribing, you acknowledge and agree to these terms.</p>
+                <p>Please consult a SEBI-registered investment advisor before making any investment decisions.</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AlphX Trading. All rights reserved.</p>
+                <div class="payment-badges">
+                    <span>Secured by</span>
+                    <img src="https://badges.razorpay.com/badge-dark.png" alt="Razorpay" class="razorpay-badge"
+                        onerror="this.style.display='none'">
+                    <span class="secure-badge">🔒 SSL Encrypted</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Disclaimer + Payment Modal -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-step" id="step1">
+                <div class="modal-header">
+                    <div class="modal-icon warning-icon">⚠️</div>
+                    <h2>Important Disclaimer</h2>
+                </div>
+                <div class="disclaimer-box">
+                    <p><strong>Please read carefully before proceeding:</strong></p>
+                    <ul>
+                        <li>We are <strong>NOT registered with SEBI</strong> (Securities and Exchange Board of India) as
+                            an investment advisor or research analyst.</li>
+                        <li>All trade calls and analysis shared are for <strong>educational and informational purposes
+                                only</strong> and do not constitute investment advice.</li>
+                        <li>Trading in the stock market involves <strong>substantial risk of financial loss</strong>.
+                            Past performance is not indicative of future results.</li>
+                        <li>You are <strong>solely responsible</strong> for your trading and investment decisions.</li>
+                        <li>We shall <strong>not be liable</strong> for any losses or damages arising from the use of
+                            our services.</li>
+                        <li>Please <strong>consult a SEBI-registered investment advisor</strong> before making any
+                            investment decisions.</li>
+                    </ul>
+                </div>
+                <label class="disclaimer-check" id="disclaimerLabel">
+                    <input type="checkbox" id="disclaimerCheckbox" onchange="toggleProceedBtn()">
+                    <span class="checkmark"></span>
+                    <span>I have read, understood, and agree to all the above terms. I acknowledge that this service is
+                        not SEBI registered and I am proceeding at my own risk.</span>
+                </label>
+                <button class="btn btn-primary btn-full" id="proceedBtn" disabled onclick="showStep2()">
+                    I Understand & Agree – Proceed to Payment
+                </button>
+            </div>
+            <div class="modal-step hidden" id="step2">
+                <div class="modal-header">
+                    <div class="modal-icon">💳</div>
+                    <h2>Complete Payment</h2>
+                </div>
+                <!-- Duration Picker -->
+                <div class="duration-section">
+                    <h3 class="duration-title">Select Duration</h3>
+                    <div class="duration-picker" id="durationPicker">
+                        <!-- Dynamically filled by JS -->
+                    </div>
+                </div>
+                <div class="payment-summary">
+                    <div class="summary-plan">
+                        <span id="summaryPlanName">—</span>
+                        <span class="summary-price" id="summaryPrice">₹0</span>
+                    </div>
+                    <div class="summary-details">
+                        <div><span>Duration</span><strong id="summaryDuration">1 Month</strong></div>
+                        <div><span>Access</span><strong>Instant via Telegram</strong></div>
+                    </div>
+                </div>
+                <form class="payment-form" id="paymentForm" onsubmit="handlePayment(event)">
+                    <div class="form-group">
+                        <label for="userName">Full Name</label>
+                        <input type="text" id="userName" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userPhone">Phone Number</label>
+                        <input type="tel" id="userPhone" placeholder="9876543210" required pattern="[0-9]{10}">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full btn-glow">
+                        <span class="btn-lock">🔒</span> Pay <span id="payBtnAmount">₹0</span> via Razorpay
+                    </button>
+                </form>
+                <p class="payment-secure">🔒 Your payment is secured by Razorpay. 256-bit SSL encryption.</p>
+            </div>
+            <div class="modal-step hidden" id="step3">
+                <div class="modal-header">
+                    <div class="modal-icon success-icon">✅</div>
+                    <h2>Payment Successful!</h2>
+                    <p class="success-sub">Welcome to the AlphX community!</p>
+                </div>
+                <div class="group-links">
+                    <h3>Join Your Telegram Channels:</h3>
+                    <a href="https://t.me/+Zs5RhBnRCwkwZjQ1" target="_blank" class="group-link" id="link-equity">
+                        <div class="group-link-icon">⚡</div>
+                        <div class="group-link-info">
+                            <strong>⚡️ALPHA SWING POSITIONAL BTST PENNY⚡️</strong>
+                            <span>Swing, Positional, BTST & Penny Calls</span>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                    </a>
+                    <a href="https://t.me/+Z-ic0XUhLjllYmQ1" target="_blank" class="group-link" id="link-fno">
+                        <div class="group-link-icon">🎯</div>
+                        <div class="group-link-info">
+                            <strong>AlphX (Premium Fno Trades)</strong>
+                            <span>Options & Futures Premium Calls</span>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                    </a>
+                    <a href="https://t.me/AlphXtrader" target="_blank" class="group-link" id="link-discussion">
+                        <div class="group-link-icon">🤝</div>
+                        <div class="group-link-info">
+                            <strong>AlphX Discussion Group</strong>
+                            <span>Collaborative Learning Community</span>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                    </a>
+                </div>
+                <p class="success-note">📌 Save these links! If you face any issues joining, contact us on Telegram.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proof Lightbox -->
+    <div class="lightbox-overlay" id="proofLightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img src="" alt="Proof Screenshot" id="lightboxImg">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
