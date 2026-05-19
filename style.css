@@ -890,3 +890,158 @@ body.has-promo { padding-top: 38px; }
         user-select: none;
     }
 }
+
+/* ===== FOOTER LEGAL LINKS (thin row above footer-bottom) ===== */
+.footer-legal-links {
+    text-align: center;
+    margin-bottom: 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-muted);
+}
+.footer-legal-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    margin: 0 4px;
+}
+.footer-legal-links a:hover { color: var(--accent); }
+.footer-legal-links .sep { margin: 0 6px; opacity: 0.4; }
+@media (max-width: 600px) {
+    .footer-legal-links { font-size: 12px; line-height: 1.8; }
+}
+
+/* ===== LEGAL PAGES (terms / privacy / refund / contact) ===== */
+.legal-page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 120px 24px 60px;
+    color: var(--text);
+}
+.legal-page .legal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 24px;
+    transition: color 0.2s;
+}
+.legal-page .legal-back:hover { color: var(--accent); }
+.legal-page h1 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+.legal-page .legal-meta {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+.legal-page h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin: 32px 0 12px;
+}
+.legal-page h3 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 24px 0 8px;
+}
+.legal-page p {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    line-height: 1.8;
+    margin-bottom: 14px;
+}
+.legal-page strong { color: var(--text); font-weight: 600; }
+.legal-page ul {
+    list-style: none;
+    margin-bottom: 16px;
+    padding-left: 0;
+}
+.legal-page ul li {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    line-height: 1.8;
+    padding-left: 22px;
+    position: relative;
+    margin-bottom: 8px;
+}
+.legal-page ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 4px;
+    color: var(--accent);
+}
+.legal-page .legal-callout {
+    background: rgba(255,107,107,0.06);
+    border: 1px solid rgba(255,107,107,0.2);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 24px 0;
+}
+.legal-page .legal-callout p { color: #ff8c8c; margin-bottom: 0; font-size: 13.5px; }
+.legal-page .legal-callout strong { color: #ff6b6b; }
+.legal-page .contact-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.legal-page .contact-icon {
+    width: 44px; height: 44px;
+    background: rgba(109,92,255,0.12);
+    border: 1px solid rgba(109,92,255,0.25);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+.legal-page .contact-body { flex: 1; }
+.legal-page .contact-body .label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.legal-page .contact-body .value {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 600;
+    margin-top: 2px;
+    word-break: break-word;
+}
+.legal-page .contact-body a {
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 0.2s;
+}
+.legal-page .contact-body a:hover { border-color: var(--accent); }
+.legal-page .legal-footer-note {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+}
