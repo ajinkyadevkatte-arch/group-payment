@@ -1,0 +1,12 @@
+{
+  "name": "alphx-trading-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AlphX Trading premium membership site with secure Razorpay backend",
+  "engines": {
+    "node": ">=18.x"
+  },
+  "dependencies": {
+    "razorpay": "^2.9.4"
+  }
+}

@@ -1,8 +1,11 @@
 // ===== CONFIG =====
-const RAZORPAY_KEY = 'rzp_test_SOAVxW50IJIBOY';
+// Public key only — secret stays server-side in Vercel env vars.
+// Backend (/api/create-order) will also return key_id, so this is just a UI fallback.
+const RAZORPAY_KEY = 'rzp_live_SOAQ0TsqzHImFB';
 
-const SUPABASE_URL = 'https://qdhnctvybdynshkmfldo.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFkaG5jdHZ5YmR5bnNoa21mbGRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTA5NzEsImV4cCI6MjA5NDA2Njk3MX0.dqVDSOYNqv95G67bGNd99U1HGc35P4CK2QVKzIUSgoQ';
+// Supabase writes now happen on the backend (/api/create-order, /api/verify-payment)
+// to prevent users from inserting fake "paid" records by spoofing the API.
+// The anon key is no longer needed on the frontend.
 
 const PLANS = {
     equity: {
@@ -44,27 +47,26 @@ let selectedPlanKey  = null;
 let selectedDuration = null;
 let selectedAmount   = 0;
 
-// ===== SUPABASE =====
-async function saveSubscriber(data) {
-    try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/subscribers`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                'Prefer': 'return=minimal'
-            },
-            body: JSON.stringify(data)
-        });
-        if (res.ok) {
-            console.log('Subscriber saved to Supabase');
-        } else {
-            console.error('Supabase error:', res.status, await res.text());
-        }
-    } catch (err) {
-        console.error('Supabase save failed:', err);
-    }
+// ===== BACKEND API HELPERS =====
+async function apiCreateOrder({ plan, duration, name, phone }) {
+    const res = await fetch('/api/create-order', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ plan, duration, name, phone })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Order creation failed (${res.status})`);
+    return data;
+}
+
+async function apiVerifyPayment(payload) {
+    const res = await fetch('/api/verify-payment', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+    });
+    const data = await res.json().catch(() => ({}));
+    return { ok: res.ok, ...data };
 }
 
 // ===== NAVBAR =====
@@ -213,43 +215,87 @@ function selectDuration(key) {
     document.getElementById('payBtnAmount').textContent    = '₹' + d.amount.toLocaleString();
 }
 
-// ===== RAZORPAY PAYMENT =====
-function handlePayment(e) {
+// ===== RAZORPAY PAYMENT — SECURE FLOW =====
+// 1) Backend creates order (validates plan/amount/phone)
+// 2) Razorpay checkout opens with the order_id
+// 3) On success, backend verifies HMAC-SHA256 signature
+// 4) Only after verification do we show success page + Telegram links
+async function handlePayment(e) {
     e.preventDefault();
 
     const name  = document.getElementById('userName').value.trim();
     const phone = document.getElementById('userPhone').value.trim();
 
-    if (!name) { showInputError('userName', 'Please enter your name'); return; }
+    if (!name)  { showInputError('userName', 'Please enter your name'); return; }
     if (!/^\d{10}$/.test(phone)) { showInputError('userPhone', 'Enter a valid 10-digit number'); return; }
 
-    const d           = selectedPlan.durations[selectedDuration];
-    const description = `${selectedPlan.name} - ${d.label}`;
+    const payBtn = document.querySelector('.pay-btn');
+    const payBtnHTML = payBtn ? payBtn.innerHTML : null;
 
+    function setBtnLoading(loading) {
+        if (!payBtn) return;
+        if (loading) {
+            payBtn.disabled = true;
+            payBtn.innerHTML = '<span>Preparing secure checkout…</span>';
+            payBtn.style.opacity = '0.7';
+        } else {
+            payBtn.disabled = false;
+            payBtn.innerHTML = payBtnHTML;
+            payBtn.style.opacity = '';
+        }
+    }
+
+    setBtnLoading(true);
+
+    // ===== STEP 1: Create order on backend =====
+    let order;
+    try {
+        order = await apiCreateOrder({
+            plan:     selectedPlanKey,
+            duration: selectedDuration,
+            name,
+            phone
+        });
+    } catch (err) {
+        setBtnLoading(false);
+        alert('Could not start payment. ' + (err.message || 'Please try again.'));
+        console.error('create-order error:', err);
+        return;
+    }
+
+    setBtnLoading(false);
+
+    // ===== STEP 2: Open Razorpay with the order_id =====
     const options = {
-        key:         RAZORPAY_KEY,
-        amount:      selectedAmount * 100,
-        currency:    'INR',
-        name:        'AlphX Trading',
-        description: description,
-        image:       '',
-        prefill:     { name, contact: phone },
-        theme:       { color: '#6d5cff' },
-        handler: function (response) {
-            saveSubscriber({
-                name,
-                phone,
-                plan:       selectedPlanKey,
-                duration:   selectedDuration,
-                amount:     selectedAmount,
-                payment_id: response.razorpay_payment_id,
-                created_at: new Date().toISOString()
+        key:        order.key_id,
+        amount:     order.amount,
+        currency:   order.currency,
+        order_id:   order.order_id,
+        name:       'AlphX Trading',
+        description:`${order.plan_name} - ${order.duration}`,
+        prefill:    { name, contact: phone },
+        theme:      { color: '#6d5cff' },
+        handler: async function (response) {
+            // ===== STEP 3: Verify on backend =====
+            const verifyRes = await apiVerifyPayment({
+                razorpay_order_id:   response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature:  response.razorpay_signature
             });
-            showSuccessStep(response.razorpay_payment_id, name);
+            if (verifyRes.ok && verifyRes.verified) {
+                showSuccessStep(response.razorpay_payment_id, name);
+            } else {
+                alert('Payment received but could not be verified. Please contact support with this ID: ' + response.razorpay_payment_id);
+                console.error('Signature verification failed:', verifyRes);
+            }
         },
         modal: {
             ondismiss: function () {
-                console.log('Payment cancelled');
+                // User closed Razorpay popup — mark as cancelled in DB
+                apiVerifyPayment({
+                    razorpay_order_id: order.order_id,
+                    failure_reason:    'Cancelled by user'
+                }).catch(() => {});
             }
         }
     };
@@ -257,7 +303,12 @@ function handlePayment(e) {
     try {
         const rzp = new Razorpay(options);
         rzp.on('payment.failed', function (response) {
-            alert('Payment failed: ' + response.error.description);
+            const reason = response.error && response.error.description || 'Payment failed';
+            apiVerifyPayment({
+                razorpay_order_id: response.error?.metadata?.order_id || order.order_id,
+                failure_reason:    reason
+            }).catch(() => {});
+            alert('Payment failed: ' + reason);
         });
         rzp.open();
     } catch (err) {
