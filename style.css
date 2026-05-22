@@ -1275,3 +1275,55 @@ body.has-promo { padding-top: 38px; }
     .upi-steps { gap: 6px; margin-bottom: 12px; }
     .upi-steps li { font-size: 12px; }
 }
+
+/* ===== BANK TRANSFER DETAILS (NEFT/IMPS) ===== */
+.upi-bank-toggle {
+    width: 100%;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-size: 13px; font-weight: 600;
+    font-family: var(--font);
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+}
+.upi-bank-toggle:hover { background: rgba(255,255,255,0.07); border-color: var(--accent); }
+.upi-bank-chev { font-size: 12px; color: var(--accent); transition: transform 0.2s; }
+.upi-bank {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, margin 0.35s ease;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    margin-bottom: 0;
+}
+.upi-bank.open {
+    max-height: 320px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+}
+.upi-bank-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px;
+}
+.upi-bank-item:last-child { border-bottom: none; }
+.upi-bank-label { color: var(--text-muted); flex-shrink: 0; }
+.upi-bank-val {
+    color: #fff; font-weight: 600; text-align: right;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: monospace; font-size: 13px; flex-wrap: wrap; justify-content: flex-end;
+}
+.upi-mini-copy {
+    background: var(--accent); color: #fff; border: none;
+    padding: 4px 10px; border-radius: 6px;
+    font-size: 11px; font-weight: 700; cursor: pointer;
+    font-family: var(--font); transition: all 0.2s; flex-shrink: 0;
+}
+.upi-mini-copy:hover { filter: brightness(1.1); }
+.upi-mini-copy.copied { background: var(--accent2); color: #000; }

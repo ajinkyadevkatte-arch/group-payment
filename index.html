@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=19">
+    <link rel="stylesheet" href="style.css?v=20">
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 
@@ -760,6 +760,38 @@
                     <span>Or pay to: <strong>GPay / PhonePe</strong> → <strong>9860145391</strong></span>
                 </div>
 
+                <!-- Bank Transfer (NEFT / IMPS / RTGS) -->
+                <button type="button" class="upi-bank-toggle" id="bankToggle" onclick="toggleBankDetails()">
+                    🏦 Bank Transfer (NEFT / IMPS / RTGS)
+                    <span class="upi-bank-chev" id="bankChev">▾</span>
+                </button>
+                <div class="upi-bank" id="bankDetails">
+                    <div class="upi-bank-item">
+                        <span class="upi-bank-label">Account Holder</span>
+                        <span class="upi-bank-val">Ravikiran Prakash Telewar</span>
+                    </div>
+                    <div class="upi-bank-item">
+                        <span class="upi-bank-label">Account Number</span>
+                        <span class="upi-bank-val">100021039538
+                            <button type="button" class="upi-mini-copy" onclick="copyText('100021039538', this)">Copy</button>
+                        </span>
+                    </div>
+                    <div class="upi-bank-item">
+                        <span class="upi-bank-label">IFSC Code</span>
+                        <span class="upi-bank-val">ESFB0009030
+                            <button type="button" class="upi-mini-copy" onclick="copyText('ESFB0009030', this)">Copy</button>
+                        </span>
+                    </div>
+                    <div class="upi-bank-item">
+                        <span class="upi-bank-label">Bank</span>
+                        <span class="upi-bank-val">Equitas Small Finance Bank</span>
+                    </div>
+                    <div class="upi-bank-item">
+                        <span class="upi-bank-label">Account Type</span>
+                        <span class="upi-bank-val">Savings</span>
+                    </div>
+                </div>
+
                 <!-- Confirm on Telegram -->
                 <div class="upi-divider"><span>After Payment</span></div>
                 <div class="upi-confirm-box">
@@ -858,7 +890,7 @@
         <button class="sticky-btn" onclick="scrollToPlans()">View Plans →</button>
     </div>
 
-    <script src="script.js?v=19"></script>
+    <script src="script.js?v=20"></script>
 </body>
 
 </html>

@@ -325,25 +325,41 @@ function showUpiPaymentStep() {
     savePendingOrder();
 }
 
-// ===== COPY UPI ID =====
-function copyUpiId() {
-    const btn = document.getElementById('upiCopyBtn');
-    navigator.clipboard.writeText(UPI_CONFIG.upiId).then(() => {
-        const orig = btn.textContent;
+// ===== GENERIC COPY-TO-CLIPBOARD =====
+function copyText(text, btn) {
+    const orig = btn.textContent;
+    const done = () => {
         btn.textContent = '✓ Copied';
         btn.classList.add('copied');
-        setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
-    }).catch(() => {
-        // Fallback for older browsers
+        setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else {
+        fallback();
+    }
+    function fallback() {
         const tmp = document.createElement('input');
-        tmp.value = UPI_CONFIG.upiId;
+        tmp.value = text;
         document.body.appendChild(tmp);
         tmp.select();
         try { document.execCommand('copy'); } catch (e) {}
         document.body.removeChild(tmp);
-        btn.textContent = '✓ Copied';
-        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
-    });
+        done();
+    }
+}
+
+// ===== COPY UPI ID =====
+function copyUpiId() {
+    copyText(UPI_CONFIG.upiId, document.getElementById('upiCopyBtn'));
+}
+
+// ===== TOGGLE BANK DETAILS =====
+function toggleBankDetails() {
+    const box  = document.getElementById('bankDetails');
+    const chev = document.getElementById('bankChev');
+    const open = box.classList.toggle('open');
+    if (chev) chev.textContent = open ? '▴' : '▾';
 }
 
 // ===== CONFIRM ON TELEGRAM =====
