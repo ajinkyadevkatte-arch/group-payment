@@ -1061,8 +1061,9 @@ body.has-promo { padding-top: 38px; }
 .upi-order-id strong { color: var(--accent); font-family: monospace; font-size: 13px; letter-spacing: 0.5px; }
 
 .upi-qr-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 18px; }
-.upi-qr-box { width: 216px; height: 216px; background: #fff; border-radius: 14px; padding: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
-.upi-qr-box img, .upi-qr-box canvas { display: block; border-radius: 6px; }
+.upi-qr-box { width: 208px; height: 208px; background: #fff; border-radius: 14px; padding: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 30px rgba(0,0,0,0.3); overflow: hidden; line-height: 0; }
+.upi-qr-box img, .upi-qr-box canvas { display: block; border-radius: 4px; max-width: 100%; height: auto; }
+.upi-qr-box table { display: none !important; }
 .upi-qr-fallback { font-size: 12px; color: #555; text-align: center; padding: 20px; }
 .upi-qr-hint { margin-top: 12px; font-size: 13px; font-weight: 600; color: var(--text); text-align: center; line-height: 1.5; }
 .upi-qr-hint span { font-size: 11px; color: var(--text-muted); font-weight: 400; }
@@ -1265,8 +1266,8 @@ body.has-promo { padding-top: 38px; }
     .upi-amount-box { padding: 12px; margin-bottom: 12px; }
     .upi-amount-value { font-size: 30px; }
     .upi-qr-wrap { margin-bottom: 12px; }
-    .upi-qr-box { width: 168px; height: 168px; }
-    .upi-qr-hint { margin-top: 8px; font-size: 12px; }
+    .upi-qr-box { width: 196px; height: 196px; padding: 9px; }
+    .upi-qr-hint { margin-top: 10px; font-size: 12px; }
     .upi-mobile-hint { margin-bottom: 12px; }
     .upi-id-row { padding: 10px 12px; margin-bottom: 10px; }
     .upi-divider { margin: 16px 0 12px; }
