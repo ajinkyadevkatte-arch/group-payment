@@ -9,9 +9,9 @@ const PLANS = {
     equity: {
         name: 'Alpha Swing & Positional',
         durations: {
-            '1month': { label: '1 Month',  amount: 2000 },
-            '3month': { label: '3 Months', amount: 3999 },
-            '1year':  { label: '1 Year',   amount: 10000 }
+            '1month': { label: '1 Month',  amount: 1299 },
+            '3month': { label: '3 Months', amount: 3000 },
+            '1year':  { label: '1 Year',   amount: 7500 }
         }
     },
     fno: {
