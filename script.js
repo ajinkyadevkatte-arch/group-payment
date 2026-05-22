@@ -1,11 +1,9 @@
-// ===== CONFIG =====
-// Public key only — secret stays server-side in Vercel env vars.
-// Backend (/api/create-order) will also return key_id, so this is just a UI fallback.
-const RAZORPAY_KEY = 'rzp_live_SOAQ0TsqzHImFB';
-
-// Supabase writes now happen on the backend (/api/create-order, /api/verify-payment)
-// to prevent users from inserting fake "paid" records by spoofing the API.
-// The anon key is no longer needed on the frontend.
+// ===== UPI PAYMENT CONFIG =====
+const UPI_CONFIG = {
+    upiId:        'telewarravikiran-1@okhdfcbank',   // Primary UPI ID (QR + intent)
+    payeeName:    'Ravikiran Telewar',                // Name shown in UPI app
+    telegramUser: 'ALPHXRK'                            // Handle for payment confirmation
+};
 
 const PLANS = {
     equity: {
@@ -47,26 +45,27 @@ let selectedPlanKey  = null;
 let selectedDuration = null;
 let selectedAmount   = 0;
 
-// ===== BACKEND API HELPERS =====
-async function apiCreateOrder({ plan, duration, name, phone }) {
-    const res = await fetch('/api/create-order', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ plan, duration, name, phone })
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || `Order creation failed (${res.status})`);
-    return data;
+// Current order context (set when user proceeds to payment)
+let currentOrder = { id: null, name: '', phone: '', amount: 0, planName: '', durationLabel: '' };
+
+// ===== ORDER ID GENERATOR =====
+function generateOrderId() {
+    const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // no confusing 0/O/1/I/L
+    let id = '';
+    for (let i = 0; i < 5; i++) id += chars[Math.floor(Math.random() * chars.length)];
+    return 'ALPHX-' + id;
 }
 
-async function apiVerifyPayment(payload) {
-    const res = await fetch('/api/verify-payment', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload)
+// ===== BUILD UPI INTENT STRING =====
+function buildUpiString(amount, orderId) {
+    const params = new URLSearchParams({
+        pa: UPI_CONFIG.upiId,
+        pn: UPI_CONFIG.payeeName,
+        am: String(amount),
+        cu: 'INR',
+        tn: `AlphX ${orderId}`
     });
-    const data = await res.json().catch(() => ({}));
-    return { ok: res.ok, ...data };
+    return 'upi://pay?' + params.toString();
 }
 
 // ===== NAVBAR =====
@@ -215,12 +214,12 @@ function selectDuration(key) {
     document.getElementById('payBtnAmount').textContent    = '₹' + d.amount.toLocaleString();
 }
 
-// ===== RAZORPAY PAYMENT — SECURE FLOW =====
-// 1) Backend creates order (validates plan/amount/phone)
-// 2) Razorpay checkout opens with the order_id
-// 3) On success, backend verifies HMAC-SHA256 signature
-// 4) Only after verification do we show success page + Telegram links
-async function handlePayment(e) {
+// ===== UPI PAYMENT FLOW =====
+// 1) Validate name + phone
+// 2) Generate unique order ID
+// 3) Show UPI payment screen (QR + pay button + copy UPI)
+// 4) User pays, then confirms on Telegram with screenshot + UTR
+function handlePayment(e) {
     e.preventDefault();
 
     const name  = document.getElementById('userName').value.trim();
@@ -229,92 +228,19 @@ async function handlePayment(e) {
     if (!name)  { showInputError('userName', 'Please enter your name'); return; }
     if (!/^\d{10}$/.test(phone)) { showInputError('userPhone', 'Enter a valid 10-digit number'); return; }
 
-    const payBtn = document.querySelector('.pay-btn');
-    const payBtnHTML = payBtn ? payBtn.innerHTML : null;
+    const d = selectedPlan.durations[selectedDuration];
 
-    function setBtnLoading(loading) {
-        if (!payBtn) return;
-        if (loading) {
-            payBtn.disabled = true;
-            payBtn.innerHTML = '<span>Preparing secure checkout…</span>';
-            payBtn.style.opacity = '0.7';
-        } else {
-            payBtn.disabled = false;
-            payBtn.innerHTML = payBtnHTML;
-            payBtn.style.opacity = '';
-        }
-    }
-
-    setBtnLoading(true);
-
-    // ===== STEP 1: Create order on backend =====
-    let order;
-    try {
-        order = await apiCreateOrder({
-            plan:     selectedPlanKey,
-            duration: selectedDuration,
-            name,
-            phone
-        });
-    } catch (err) {
-        setBtnLoading(false);
-        alert('Could not start payment. ' + (err.message || 'Please try again.'));
-        console.error('create-order error:', err);
-        return;
-    }
-
-    setBtnLoading(false);
-
-    // ===== STEP 2: Open Razorpay with the order_id =====
-    const options = {
-        key:        order.key_id,
-        amount:     order.amount,
-        currency:   order.currency,
-        order_id:   order.order_id,
-        name:       'AlphX Trading',
-        description:`${order.plan_name} - ${order.duration}`,
-        prefill:    { name, contact: phone },
-        theme:      { color: '#6d5cff' },
-        handler: async function (response) {
-            // ===== STEP 3: Verify on backend =====
-            const verifyRes = await apiVerifyPayment({
-                razorpay_order_id:   response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature:  response.razorpay_signature
-            });
-            if (verifyRes.ok && verifyRes.verified) {
-                showSuccessStep(response.razorpay_payment_id, name);
-            } else {
-                alert('Payment received but could not be verified. Please contact support with this ID: ' + response.razorpay_payment_id);
-                console.error('Signature verification failed:', verifyRes);
-            }
-        },
-        modal: {
-            ondismiss: function () {
-                // User closed Razorpay popup — mark as cancelled in DB
-                apiVerifyPayment({
-                    razorpay_order_id: order.order_id,
-                    failure_reason:    'Cancelled by user'
-                }).catch(() => {});
-            }
-        }
+    // Build the order context
+    currentOrder = {
+        id:            generateOrderId(),
+        name:          name,
+        phone:         phone,
+        amount:        selectedAmount,
+        planName:      selectedPlan.name,
+        durationLabel: d.label
     };
 
-    try {
-        const rzp = new Razorpay(options);
-        rzp.on('payment.failed', function (response) {
-            const reason = response.error && response.error.description || 'Payment failed';
-            apiVerifyPayment({
-                razorpay_order_id: response.error?.metadata?.order_id || order.order_id,
-                failure_reason:    reason
-            }).catch(() => {});
-            alert('Payment failed: ' + reason);
-        });
-        rzp.open();
-    } catch (err) {
-        alert('Error initializing payment. Please try again.');
-        console.error(err);
-    }
+    showUpiPaymentStep();
 }
 
 function showInputError(inputId, message) {
@@ -325,38 +251,128 @@ function showInputError(inputId, message) {
     alert(message);
 }
 
-// ===== SUCCESS STEP =====
-function showSuccessStep(paymentId, userName) {
+// ===== UPI PAYMENT STEP =====
+function showUpiPaymentStep() {
     document.getElementById('step2').classList.add('hidden');
     document.getElementById('step3').classList.remove('hidden');
 
-    // Fill receipt
-    const d = selectedPlan.durations[selectedDuration];
-    document.getElementById('receiptPaymentId').textContent = paymentId || 'N/A';
-    document.getElementById('receiptName').textContent      = userName;
-    document.getElementById('receiptPlan').textContent      = selectedPlan.name;
-    document.getElementById('receiptDuration').textContent  = d.label;
-    document.getElementById('receiptAmount').textContent    = '₹' + selectedAmount.toLocaleString();
-    const now = new Date();
-    const datePart = now.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-    const h = now.getHours(), m = now.getMinutes();
-    const timePart = `${h % 12 || 12}:${String(m).padStart(2,'0')} ${h >= 12 ? 'PM' : 'AM'}`;
-    document.getElementById('receiptDate').textContent = `${datePart}, ${timePart}`;
+    const amt = currentOrder.amount;
+    const amtText = '₹' + amt.toLocaleString();
 
-    // Show only relevant Telegram links
-    const linkEquity = document.getElementById('link-equity');
-    const linkFno    = document.getElementById('link-fno');
-    const linkDisc   = document.getElementById('link-discussion');
-    if (linkEquity) linkEquity.style.display = selectedPlan.links.includes('equity')     ? 'flex' : 'none';
-    if (linkFno)    linkFno.style.display    = selectedPlan.links.includes('fno')        ? 'flex' : 'none';
-    if (linkDisc)   linkDisc.style.display   = selectedPlan.links.includes('discussion') ? 'flex' : 'none';
+    // Fill header + amount + order id
+    document.getElementById('upiPlanName').textContent = `${currentOrder.planName} · ${currentOrder.durationLabel}`;
+    document.getElementById('upiAmount').textContent   = amtText;
+    document.getElementById('upiOrderId').textContent  = currentOrder.id;
+    document.getElementById('upiIdValue').textContent  = UPI_CONFIG.upiId;
 
-    // Scroll modal to top so receipt is visible
+    // Build UPI intent string
+    const upiString = buildUpiString(amt, currentOrder.id);
+
+    // Mobile "Pay via UPI app" button
+    const payBtn = document.getElementById('upiPayBtn');
+    payBtn.href = upiString;
+    payBtn.querySelector('span').textContent = `Pay ${amtText} via UPI App`;
+
+    // Generate QR code
+    const qrBox = document.getElementById('upiQrBox');
+    qrBox.innerHTML = '';
+    if (typeof QRCode !== 'undefined') {
+        new QRCode(qrBox, {
+            text:        upiString,
+            width:       200,
+            height:      200,
+            colorDark:   '#000000',
+            colorLight:  '#ffffff',
+            correctLevel: QRCode.CorrectLevel.M
+        });
+    } else {
+        // Fallback if QR library failed to load
+        qrBox.innerHTML = '<div class="upi-qr-fallback">QR unavailable — please use the UPI ID below to pay</div>';
+    }
+
+    // Scroll modal to top
     const modal = document.querySelector('.modal');
     if (modal) modal.scrollTop = 0;
 
-    // Launch confetti
-    launchConfetti();
+    // Save a pending record (best-effort, non-blocking)
+    savePendingOrder();
+}
+
+// ===== COPY UPI ID =====
+function copyUpiId() {
+    const btn = document.getElementById('upiCopyBtn');
+    navigator.clipboard.writeText(UPI_CONFIG.upiId).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copied';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => {
+        // Fallback for older browsers
+        const tmp = document.createElement('input');
+        tmp.value = UPI_CONFIG.upiId;
+        document.body.appendChild(tmp);
+        tmp.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(tmp);
+        btn.textContent = '✓ Copied';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+}
+
+// ===== CONFIRM ON TELEGRAM =====
+function confirmOnTelegram() {
+    const o = currentOrder;
+    const msg =
+        `Hi! I have paid for AlphX 👇\n` +
+        `Plan: ${o.planName}\n` +
+        `Duration: ${o.durationLabel}\n` +
+        `Amount: ₹${o.amount.toLocaleString()}\n` +
+        `Order ID: ${o.id}\n` +
+        `Name: ${o.name}\n` +
+        `Phone: ${o.phone}\n` +
+        `\n(Attaching payment screenshot + UTR/Transaction ID)`;
+
+    // Copy message so user can paste it in chat (text param doesn't auto-fill user DMs)
+    navigator.clipboard.writeText(msg).catch(() => {});
+
+    const tgBtn = document.getElementById('upiTelegramBtn');
+    if (tgBtn) {
+        const orig = tgBtn.innerHTML;
+        tgBtn.innerHTML = '✓ Order details copied! Opening Telegram…';
+        setTimeout(() => { tgBtn.innerHTML = orig; }, 3500);
+    }
+
+    // Open Telegram chat with the support handle
+    const tgUrl = `https://t.me/${UPI_CONFIG.telegramUser}?text=${encodeURIComponent(msg)}`;
+    window.open(tgUrl, '_blank');
+}
+
+// ===== SAVE PENDING ORDER (best-effort tracking) =====
+function savePendingOrder() {
+    // Optional: log the order attempt. Uses Supabase REST insert.
+    // Non-blocking — failure here never breaks the payment UI.
+    if (!window.SUPABASE_INSERT_URL) return; // only runs if configured
+    try {
+        fetch(window.SUPABASE_INSERT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey':        window.SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${window.SUPABASE_ANON_KEY}`,
+                'Prefer':        'return=minimal'
+            },
+            body: JSON.stringify({
+                name:       currentOrder.name,
+                phone:      currentOrder.phone,
+                plan:       selectedPlanKey,
+                duration:   selectedDuration,
+                amount:     currentOrder.amount,
+                order_id:   currentOrder.id,
+                status:     'pending',
+                created_at: new Date().toISOString()
+            })
+        }).catch(() => {});
+    } catch (e) { /* ignore */ }
 }
 
 // ===== CONFETTI =====
