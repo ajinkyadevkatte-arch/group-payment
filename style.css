@@ -1228,3 +1228,7 @@ body.has-promo { padding-top: 38px; }
     .exit-title { font-size: 22px; }
     .exit-emoji { font-size: 44px; }
 }
+
+/* ===== FLUCTUATING COUNT NUMBERS ===== */
+.member-count, .joined-today { font-weight: 700; color: var(--text); }
+.plan-meta-item.urgent .joined-today { color: #ff8c42; }

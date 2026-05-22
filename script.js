@@ -582,6 +582,43 @@ if (document.getElementById('promoBar')) {
     }, 4000);
 })();
 
+// ===== MEMBER COUNTS — slow organic drift (looks genuine, not static) =====
+(function () {
+    const counters = document.querySelectorAll('.member-count');
+    if (!counters.length) return;
+    // Each counter drifts around its base value, trending slightly upward
+    const state = Array.from(counters).map(el => ({
+        el,
+        value: parseInt(el.getAttribute('data-base'), 10) || 0
+    }));
+    function fmt(n) { return n.toLocaleString('en-IN'); }
+    setInterval(() => {
+        state.forEach(s => {
+            // 70% chance +1..+2 (growth), 30% chance -1 (someone left)
+            const delta = Math.random() < 0.7 ? (1 + Math.floor(Math.random() * 2)) : -1;
+            s.value += delta;
+            const base = parseInt(s.el.getAttribute('data-base'), 10);
+            // keep within a believable band of the base
+            if (s.value < base - 8) s.value = base - 8;
+            if (s.value > base + 25) s.value = base + 25;
+            s.el.textContent = fmt(s.value);
+        });
+    }, 9000);
+})();
+
+// ===== "JOINED TODAY" — slowly increments =====
+(function () {
+    const el = document.querySelector('.joined-today');
+    if (!el) return;
+    let n = parseInt(el.getAttribute('data-base'), 10) || 18;
+    setInterval(() => {
+        if (Math.random() < 0.45) { // not every tick, feels real
+            n += 1;
+            el.textContent = n;
+        }
+    }, 18000);
+})();
+
 // ===== LIMITED SEATS COUNTER (slowly decrements) =====
 (function () {
     const el = document.getElementById('fnoSeats');
