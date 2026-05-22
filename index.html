@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=15">
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 
@@ -358,6 +358,10 @@
                 <span class="section-tag">Pricing</span>
                 <h2>Choose Your <span class="gradient-text">Trading Edge</span></h2>
                 <p>Select the plan that fits your trading style. All plans include instant Telegram access after payment.</p>
+                <div class="live-viewers">
+                    <span class="live-viewers-dot"></span>
+                    <span><strong id="viewerCount">47</strong> people viewing plans right now</span>
+                </div>
             </div>
             <div class="plans-grid">
 
@@ -438,6 +442,7 @@
                             <span class="plan-meta-item"><span class="meta-dot-live"></span> 1,247 active members</span>
                             <span class="plan-meta-item urgent">🔥 18 joined today</span>
                         </div>
+                        <div class="plan-seats">⚠️ Only <strong id="fnoSeats">7</strong> seats left at this price</div>
                     </div>
                 </div>
 
@@ -773,6 +778,44 @@
         <img src="" alt="Proof Screenshot" id="lightboxImg">
     </div>
 
+    <!-- Exit-Intent Popup -->
+    <div class="exit-overlay" id="exitOverlay">
+        <div class="exit-modal">
+            <button class="exit-close" onclick="closeExitPopup()" aria-label="Close">&times;</button>
+            <div class="exit-emoji">🎁</div>
+            <h2 class="exit-title">Ruko! Jaane se pehle…</h2>
+            <p class="exit-sub">2,000+ traders already inside getting daily market analysis. Don't miss out on today's offer.</p>
+            <div class="exit-offer">
+                <div class="exit-offer-row">
+                    <span>🔥 Annual plans</span>
+                    <strong>Save up to ₹18,000</strong>
+                </div>
+                <div class="exit-offer-row">
+                    <span>🎁 Join today</span>
+                    <strong>+1 week FREE bonus</strong>
+                </div>
+                <div class="exit-offer-row">
+                    <span>⚡ Access</span>
+                    <strong>Instant after payment</strong>
+                </div>
+            </div>
+            <div class="exit-timer-wrap">
+                Offer expires in <span class="exit-timer" id="exitTimer">15:00</span>
+            </div>
+            <button class="btn btn-primary btn-full btn-glow" onclick="closeExitPopup(); scrollToPlans();">
+                👉 Yes, Show Me The Plans
+            </button>
+            <button class="exit-decline" onclick="closeExitPopup()">No thanks, I'll pay full price later</button>
+        </div>
+    </div>
+
+    <!-- Floating Telegram Quick-Contact -->
+    <a href="https://t.me/ALPHXRK" target="_blank" rel="noopener" class="tg-float" id="tgFloat" aria-label="Chat on Telegram">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.022 9.531c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.08 14.364l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.736.222z"/></svg>
+        <span class="tg-float-pulse"></span>
+        <span class="tg-float-label">Questions? Chat with us</span>
+    </a>
+
     <!-- Recent Join Notifications (bottom-left, cycling) -->
     <div class="join-notif" id="joinNotif">
         <div class="join-avatar" id="joinAvatar">R</div>
@@ -806,7 +849,7 @@
         <button class="sticky-btn" onclick="scrollToPlans()">View Plans →</button>
     </div>
 
-    <script src="script.js?v=14"></script>
+    <script src="script.js?v=15"></script>
 </body>
 
 </html>

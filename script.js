@@ -568,6 +568,115 @@ if (document.getElementById('promoBar')) {
     else window.addEventListener('load', startCycle);
 })();
 
+// ===== LIVE VIEWER COUNT (fluctuates for FOMO) =====
+(function () {
+    const el = document.getElementById('viewerCount');
+    if (!el) return;
+    let count = 38 + Math.floor(Math.random() * 20); // 38–57
+    el.textContent = count;
+    setInterval(() => {
+        count += Math.floor(Math.random() * 7) - 3; // ±3 drift
+        if (count < 31) count = 31 + Math.floor(Math.random() * 5);
+        if (count > 68) count = 68 - Math.floor(Math.random() * 5);
+        el.textContent = count;
+    }, 4000);
+})();
+
+// ===== LIMITED SEATS COUNTER (slowly decrements) =====
+(function () {
+    const el = document.getElementById('fnoSeats');
+    if (!el) return;
+    let seats = parseInt(el.textContent) || 7;
+    // Occasionally drop by 1 to create urgency (min 2)
+    setInterval(() => {
+        if (seats > 2 && Math.random() < 0.35) {
+            seats--;
+            el.textContent = seats;
+        }
+    }, 22000);
+})();
+
+// ===== FLOATING TELEGRAM — attention pulse on load =====
+(function () {
+    const tg = document.getElementById('tgFloat');
+    if (!tg) return;
+    // Briefly expand the label ~5s after load to draw the eye, then collapse
+    setTimeout(() => {
+        tg.classList.add('attention');
+        setTimeout(() => tg.classList.remove('attention'), 4000);
+    }, 6000);
+})();
+
+// ===== EXIT-INTENT POPUP =====
+(function () {
+    const overlay = document.getElementById('exitOverlay');
+    if (!overlay) return;
+    const SHOWN_KEY = 'alphx_exit_shown';
+    let shown = false;
+
+    function alreadyShownThisSession() {
+        try { return sessionStorage.getItem(SHOWN_KEY) === '1'; } catch (e) { return false; }
+    }
+    function markShown() {
+        try { sessionStorage.setItem(SHOWN_KEY, '1'); } catch (e) {}
+    }
+
+    function showExit() {
+        if (shown || alreadyShownThisSession()) return;
+        // Don't show if a payment modal is open
+        if (document.getElementById('paymentModal').classList.contains('active')) return;
+        shown = true;
+        markShown();
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        startExitTimer();
+    }
+
+    // Desktop: mouse leaves toward the top (closing tab / address bar)
+    document.addEventListener('mouseout', function (e) {
+        if (e.clientY <= 0 && !e.relatedTarget && !e.toElement) showExit();
+    });
+
+    // Mobile: fast scroll up near the top (back-intent) OR after long idle
+    let lastY = window.scrollY;
+    let mobileTimer = null;
+    if (window.matchMedia('(max-width: 768px)').matches) {
+        window.addEventListener('scroll', function () {
+            const y = window.scrollY;
+            if (lastY - y > 30 && y < 400) showExit();
+            lastY = y;
+        }, { passive: true });
+        // Fallback: show after 45s of being on page (mobile)
+        mobileTimer = setTimeout(showExit, 45000);
+    }
+
+    // Exit countdown timer
+    function startExitTimer() {
+        const el = document.getElementById('exitTimer');
+        if (!el) return;
+        let total = 15 * 60; // 15 minutes
+        function tick() {
+            const m = Math.floor(total / 60);
+            const s = total % 60;
+            el.textContent = `${m}:${String(s).padStart(2, '0')}`;
+            if (total > 0) { total--; setTimeout(tick, 1000); }
+        }
+        tick();
+    }
+
+    // Expose close globally
+    window.closeExitPopup = function () {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        if (mobileTimer) clearTimeout(mobileTimer);
+    };
+
+    // Click outside modal closes it
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) window.closeExitPopup();
+    });
+})();
+
 // ===== 3D MOUSE-TRACKED TILT + SPOTLIGHT =====
 (function () {
     // Skip on touch / small screens
