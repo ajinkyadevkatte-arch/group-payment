@@ -290,9 +290,36 @@ function showUpiPaymentStep() {
         qrBox.innerHTML = '<div class="upi-qr-fallback">QR unavailable — please use the UPI ID below to pay</div>';
     }
 
-    // Scroll modal to top
+    // Start at top so user sees QR + amount first
     const modal = document.querySelector('.modal');
     if (modal) modal.scrollTop = 0;
+
+    // Gentle auto-scroll to reveal the "Confirm on Telegram" step so mobile
+    // users realize they must confirm there to get the link. We preview the
+    // bottom, then smoothly return to top so they can pay first.
+    if (modal) {
+        const tgBox = document.querySelector('.upi-confirm-box');
+        if (tgBox) {
+            // After a few seconds, reveal the Telegram step
+            setTimeout(() => {
+                // Only auto-scroll if user hasn't already scrolled themselves
+                if (modal.scrollTop < 30) {
+                    modal.scrollTo({ top: tgBox.offsetTop - 90, behavior: 'smooth' });
+                    // Return to top after they've seen it
+                    setTimeout(() => {
+                        if (!modal.dataset.userScrolled) {
+                            modal.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                    }, 2600);
+                }
+            }, 3500);
+
+            // Stop the auto-return if user scrolls manually
+            modal.addEventListener('scroll', function onScroll() {
+                modal.dataset.userScrolled = '1';
+            }, { once: true });
+        }
+    }
 
     // Save a pending record (best-effort, non-blocking)
     savePendingOrder();

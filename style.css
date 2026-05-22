@@ -1232,3 +1232,45 @@ body.has-promo { padding-top: 38px; }
 /* ===== FLUCTUATING COUNT NUMBERS ===== */
 .member-count, .joined-today { font-weight: 700; color: var(--text); }
 .plan-meta-item.urgent .joined-today { color: #ff8c42; }
+
+/* ===== UPI FLOW BANNER (3-step clarity at top of payment screen) ===== */
+.upi-flow-banner {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 6px 8px;
+    background: rgba(109,92,255,0.08);
+    border: 1px solid rgba(109,92,255,0.2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+}
+.upi-flow-step {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12.5px; font-weight: 600; color: var(--text);
+}
+.upi-flow-step b {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--gradient); color: #000;
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+}
+.upi-flow-arrow { color: var(--accent); font-size: 14px; font-weight: 700; }
+@media (max-width: 480px) {
+    .upi-flow-banner { gap: 4px 6px; padding: 10px; }
+    .upi-flow-step { font-size: 11px; }
+    .upi-flow-arrow { font-size: 12px; }
+}
+
+/* Compact the UPI screen on small mobiles so the Telegram step is closer */
+@media (max-width: 480px) {
+    .upi-amount-box { padding: 12px; margin-bottom: 12px; }
+    .upi-amount-value { font-size: 30px; }
+    .upi-qr-wrap { margin-bottom: 12px; }
+    .upi-qr-box { width: 168px; height: 168px; }
+    .upi-qr-hint { margin-top: 8px; font-size: 12px; }
+    .upi-mobile-hint { margin-bottom: 12px; }
+    .upi-id-row { padding: 10px 12px; margin-bottom: 10px; }
+    .upi-divider { margin: 16px 0 12px; }
+    .upi-confirm-box { padding: 14px; }
+    .upi-steps { gap: 6px; margin-bottom: 12px; }
+    .upi-steps li { font-size: 12px; }
+}
