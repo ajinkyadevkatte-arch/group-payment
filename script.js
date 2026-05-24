@@ -569,36 +569,60 @@ if (document.getElementById('promoBar')) {
     const planEl   = document.getElementById('joinPlan');
     const timeEl   = document.getElementById('joinTime');
 
-    const people = [
-        { name: 'Ramesh',  city: 'Mumbai',     plan: 'F&O Premium',    grad: 'linear-gradient(135deg,#6d5cff,#a78bfa)' },
-        { name: 'Priya',   city: 'Bangalore',  plan: 'Equity',         grad: 'linear-gradient(135deg,#00e5a0,#06b6d4)' },
-        { name: 'Vikram',  city: 'Hyderabad',  plan: 'Ultimate Combo', grad: 'linear-gradient(135deg,#f59e0b,#f97316)' },
-        { name: 'Sneha',   city: 'Pune',       plan: 'F&O Premium',    grad: 'linear-gradient(135deg,#ec4899,#8b5cf6)' },
-        { name: 'Aditya',  city: 'Delhi',      plan: 'Equity',         grad: 'linear-gradient(135deg,#6d5cff,#00e5a0)' },
-        { name: 'Karthik', city: 'Chennai',    plan: 'F&O Premium',    grad: 'linear-gradient(135deg,#06b6d4,#6d5cff)' },
-        { name: 'Anjali',  city: 'Kolkata',    plan: 'Discussion',     grad: 'linear-gradient(135deg,#ec4899,#f59e0b)' },
-        { name: 'Rohan',   city: 'Ahmedabad',  plan: 'Ultimate Combo', grad: 'linear-gradient(135deg,#00e5a0,#a78bfa)' },
-        { name: 'Meera',   city: 'Jaipur',     plan: 'Equity',         grad: 'linear-gradient(135deg,#f97316,#ec4899)' },
-        { name: 'Suresh',  city: 'Lucknow',    plan: 'F&O Premium',    grad: 'linear-gradient(135deg,#8b5cf6,#06b6d4)' },
-        { name: 'Neha',    city: 'Indore',     plan: 'Ultimate Combo', grad: 'linear-gradient(135deg,#00e5a0,#6d5cff)' },
-        { name: 'Arjun',   city: 'Chandigarh', plan: 'F&O Premium',    grad: 'linear-gradient(135deg,#a78bfa,#00e5a0)' }
+    // 110+ unique first names (mixed male/female, pan-India)
+    const names = [
+        'Ramesh','Vikram','Aditya','Karthik','Rohan','Suresh','Arjun','Amit','Rahul','Sandeep',
+        'Vijay','Anil','Manish','Deepak','Nikhil','Prakash','Sunil','Rajesh','Ankit','Gaurav',
+        'Harish','Kunal','Mohit','Naveen','Pankaj','Ravi','Sachin','Tarun','Varun','Yash',
+        'Abhishek','Ashish','Bhavesh','Chetan','Dinesh','Girish','Hemant','Jatin','Kapil','Lokesh',
+        'Mukesh','Naresh','Omkar','Pradeep','Rakesh','Saurabh','Tushar','Umesh','Vinod','Yogesh',
+        'Akash','Bharat','Chirag','Faisal','Gopal','Hardik','Imran','Jignesh','Kiran','Lalit',
+        'Manoj','Nitin','Parth','Rohit','Shyam','Tanmay','Uday','Vishal','Siddharth','Aryan',
+        'Dhruv','Krishna','Madhav','Sameer','Ajay','Nirav','Pratik','Raghav','Sahil','Vivek',
+        'Priya','Sneha','Anjali','Meera','Neha','Pooja','Kavita','Divya','Swati','Ritu',
+        'Nisha','Shweta','Aarti','Bhavna','Deepika','Geeta','Komal','Manju','Namrata','Payal',
+        'Rekha','Sunita','Tanvi','Vandana','Anita','Sangeeta','Megha','Preeti','Radha','Sonia',
+        'Tara','Roshni','Simran','Ishita','Jaya','Kirti','Pallavi','Sakshi','Nidhi','Aishwarya'
+    ];
+    const cities = [
+        'Mumbai','Delhi','Bangalore','Hyderabad','Chennai','Kolkata','Pune','Ahmedabad','Jaipur','Lucknow',
+        'Indore','Chandigarh','Surat','Nagpur','Bhopal','Patna','Kanpur','Nashik','Vadodara','Coimbatore',
+        'Visakhapatnam','Ludhiana','Agra','Varanasi','Rajkot','Amritsar','Ranchi','Raipur','Guwahati','Mysore',
+        'Thane','Noida','Gurgaon','Faridabad','Meerut','Dehradun','Jodhpur','Udaipur','Kochi','Madurai',
+        'Vijayawada','Bhubaneswar','Jamshedpur','Aurangabad','Trivandrum'
+    ];
+    const plans = ['F&O Premium', 'Equity', 'Ultimate Combo'];
+    const grads = [
+        'linear-gradient(135deg,#6d5cff,#a78bfa)',
+        'linear-gradient(135deg,#00e5a0,#06b6d4)',
+        'linear-gradient(135deg,#f59e0b,#f97316)',
+        'linear-gradient(135deg,#ec4899,#8b5cf6)',
+        'linear-gradient(135deg,#6d5cff,#00e5a0)',
+        'linear-gradient(135deg,#06b6d4,#6d5cff)',
+        'linear-gradient(135deg,#ec4899,#f59e0b)',
+        'linear-gradient(135deg,#00e5a0,#a78bfa)',
+        'linear-gradient(135deg,#f97316,#ec4899)',
+        'linear-gradient(135deg,#8b5cf6,#06b6d4)'
     ];
     const times = ['just now', '1 min ago', '2 min ago', '3 min ago', '5 min ago', '7 min ago', '12 min ago'];
-    let idx = 0;
+    const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+    let lastName = '';
     let cycling = false;
 
     function showNext() {
-        const p = people[idx % people.length];
-        const t = times[Math.floor(Math.random() * times.length)];
-        nameEl.textContent   = p.name;
-        cityEl.textContent   = p.city;
-        planEl.textContent   = p.plan;
-        timeEl.textContent   = t;
-        avatarEl.textContent = p.name[0];
-        avatarEl.style.background = p.grad;
+        // pick a name that isn't the same as the previous one
+        let name = pick(names);
+        while (name === lastName) name = pick(names);
+        lastName = name;
+
+        nameEl.textContent   = name;
+        cityEl.textContent   = pick(cities);
+        planEl.textContent   = pick(plans);
+        timeEl.textContent   = pick(times);
+        avatarEl.textContent = name[0];
+        avatarEl.style.background = pick(grads);
         notif.classList.add('show');
         setTimeout(() => notif.classList.remove('show'), 5000);
-        idx++;
     }
 
     function startCycle() {
