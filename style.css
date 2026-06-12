@@ -1394,3 +1394,7 @@ body.has-3d .glow { opacity: 0.18; }
     .statement-text { letter-spacing: -0.01em; }
     .statement-sub { letter-spacing: 1.5px; }
 }
+
+/* ===== 3D v2: cinematic fade-in ===== */
+#bg3d { opacity: 0; transition: opacity 1.6s ease; }
+body.has-3d #bg3d { opacity: 1; }
