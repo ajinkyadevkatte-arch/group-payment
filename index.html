@@ -13,11 +13,33 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=25">
+    <link rel="stylesheet" href="style.css?v=26">
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
+    <!-- Cinematic Preloader -->
+    <div id="preloader" aria-hidden="true">
+        <div class="pl-center">
+            <div class="pl-logo">
+                <span>A</span><span>L</span><span>P</span><span>H</span><span class="pl-x">X</span>
+            </div>
+            <div class="pl-tag">ENTERING THE MARKET JOURNEY</div>
+        </div>
+        <div class="pl-count">0</div>
+        <div class="pl-bar"><i></i></div>
+    </div>
+
+    <!-- Scroll progress hairline -->
+    <div id="scrollProgress"></div>
+
+    <!-- Film grain -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Custom cursor -->
+    <div id="cursorDot" aria-hidden="true"></div>
+    <div id="cursorRing" aria-hidden="true"></div>
+
     <!-- Immersive 3D Market Landscape (Three.js) -->
     <canvas id="bg3d"></canvas>
     <div class="bg3d-vignette"></div>
@@ -178,6 +200,14 @@
         </div>
     </section>
 
+    <!-- Marquee band 1 -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span>SWING&nbsp;·&nbsp;BTST&nbsp;·&nbsp;F&amp;O&nbsp;·&nbsp;POSITIONAL&nbsp;·&nbsp;PENNY&nbsp;STOCKS&nbsp;·&nbsp;REAL&nbsp;ANALYSIS&nbsp;·&nbsp;</span>
+            <span>SWING&nbsp;·&nbsp;BTST&nbsp;·&nbsp;F&amp;O&nbsp;·&nbsp;POSITIONAL&nbsp;·&nbsp;PENNY&nbsp;STOCKS&nbsp;·&nbsp;REAL&nbsp;ANALYSIS&nbsp;·&nbsp;</span>
+        </div>
+    </div>
+
     <!-- Features Section -->
     <section class="features" id="features">
         <div class="container">
@@ -303,6 +333,14 @@
             </div>
         </div>
     </section>
+
+    <!-- Marquee band 2 -->
+    <div class="marquee marquee-rev" aria-hidden="true">
+        <div class="marquee-track">
+            <span>4.9★&nbsp;RATED&nbsp;·&nbsp;4,000+&nbsp;TRADERS&nbsp;·&nbsp;SECURE&nbsp;UPI&nbsp;·&nbsp;FAST&nbsp;ACCESS&nbsp;·&nbsp;DAILY&nbsp;CALLS&nbsp;·&nbsp;</span>
+            <span>4.9★&nbsp;RATED&nbsp;·&nbsp;4,000+&nbsp;TRADERS&nbsp;·&nbsp;SECURE&nbsp;UPI&nbsp;·&nbsp;FAST&nbsp;ACCESS&nbsp;·&nbsp;DAILY&nbsp;CALLS&nbsp;·&nbsp;</span>
+        </div>
+    </div>
 
     <!-- Testimonials -->
     <section class="testimonials" id="testimonials">
@@ -917,6 +955,7 @@
     <script src="script.js?v=24"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" defer></script>
     <script src="scene3d.js?v=2" defer></script>
+    <script src="polish.js?v=1" defer></script>
 </body>
 
 </html>
