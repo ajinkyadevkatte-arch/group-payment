@@ -13,11 +13,15 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=23">
+    <link rel="stylesheet" href="style.css?v=24">
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
+    <!-- Immersive 3D Market Landscape (Three.js) -->
+    <canvas id="bg3d"></canvas>
+    <div class="bg3d-vignette"></div>
+
     <!-- Animated Background -->
     <div class="bg-grid"></div>
     <div class="glow glow-1"></div>
@@ -217,6 +221,16 @@
         </div>
     </section>
 
+    <!-- Statement: LEARN. TRADE. WIN. -->
+    <section class="statement" data-aos>
+        <h2 class="statement-text">
+            <span>LEARN.</span>
+            <span>TRADE.</span>
+            <span class="gradient-text">WIN.</span>
+        </h2>
+        <p class="statement-sub">One community. Every market segment. Zero noise.</p>
+    </section>
+
     <!-- How It Works -->
     <section class="how-it-works">
         <div class="container">
@@ -349,6 +363,16 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Statement: 4000+ TRADERS -->
+    <section class="statement statement-alt" data-aos>
+        <h2 class="statement-text">
+            <span>4,000+</span>
+            <span class="gradient-text">TRADERS.</span>
+            <span>ONE EDGE.</span>
+        </h2>
+        <p class="statement-sub">Your journey to smarter trading starts below.</p>
     </section>
 
     <!-- Plans Section -->
@@ -890,7 +914,9 @@
         <button class="sticky-btn" onclick="scrollToPlans()">View Plans →</button>
     </div>
 
-    <script src="script.js?v=23"></script>
+    <script src="script.js?v=24"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" defer></script>
+    <script src="scene3d.js?v=1" defer></script>
 </body>
 
 </html>
