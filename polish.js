@@ -12,6 +12,46 @@
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const touch   = window.matchMedia('(hover: none)').matches;
 
+    /* ---------------- SMOOTH INERTIA SCROLL (Lenis) ---------------- */
+    // The defining "feel" of top-tier sites: buttery momentum scrolling.
+    // Desktop only (native touch scroll already feels great on phones),
+    // and never on reduced-motion. Modal/overlay scroll containers opt
+    // out via [data-lenis-prevent] so the payment flow stays perfect.
+    (function smoothScroll() {
+        if (reduced || touch) return;
+        if (typeof Lenis === 'undefined') return;
+        try {
+            const lenis = new Lenis({
+                duration: 1.05,
+                easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smoothWheel: true,
+                touchMultiplier: 1.2
+            });
+            window.__lenis = lenis;
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+            requestAnimationFrame(raf);
+
+            // Pause Lenis whenever a modal/overlay is open (so background
+            // doesn't scroll behind it) and resume on close.
+            const watch = () => {
+                const open = document.querySelector('.modal-overlay.active, .exit-overlay.active, .lightbox-overlay.active');
+                if (open) lenis.stop(); else lenis.start();
+            };
+            const mo = new MutationObserver(watch);
+            mo.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+
+            // Smooth-scroll for in-page anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(a => {
+                a.addEventListener('click', e => {
+                    const id = a.getAttribute('href');
+                    if (id.length < 2) return;
+                    const target = document.querySelector(id);
+                    if (target) { e.preventDefault(); lenis.scrollTo(target, { offset: -70 }); }
+                });
+            });
+        } catch (e) { /* native scroll remains */ }
+    })();
+
     /* ---------------- PRELOADER ---------------- */
     (function preloader() {
         const pl = document.getElementById('preloader');
