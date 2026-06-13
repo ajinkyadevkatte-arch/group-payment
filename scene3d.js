@@ -36,11 +36,35 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     const scene = new THREE.Scene();
+    let composer = null, bloomPass = null; // set up after camera exists
     const FOG_BASE = isMobile ? 0.034 : 0.026;
     scene.fog = new THREE.FogExp2(0x0a0a0f, FOG_BASE);
 
     const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 220);
     camera.position.set(0, 3.4, 14);
+
+    // ---------- Cinematic bloom (optional, graceful fallback) ----------
+    function setupBloom() {
+        if (!THREE.EffectComposer || !THREE.RenderPass || !THREE.UnrealBloomPass) return false;
+        try {
+            composer = new THREE.EffectComposer(renderer);
+            composer.addPass(new THREE.RenderPass(scene, camera));
+            bloomPass = new THREE.UnrealBloomPass(
+                new THREE.Vector2(window.innerWidth, window.innerHeight),
+                isMobile ? 0.85 : 1.15,   // strength
+                isMobile ? 0.7  : 0.85,   // radius
+                0.0                        // threshold (everything glows a little)
+            );
+            composer.addPass(bloomPass);
+            composer.setSize(window.innerWidth, window.innerHeight);
+            composer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.3 : 1.8));
+            return true;
+        } catch (e) {
+            composer = null; bloomPass = null;
+            return false;
+        }
+    }
+    setupBloom();
 
     // ---------- Shared world constants ----------
     const TILE = 150;            // terrain + road period (seamless looping)
@@ -303,6 +327,7 @@
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        if (composer) composer.setSize(window.innerWidth, window.innerHeight);
     });
 
     let running = true;
@@ -467,7 +492,14 @@
         // Horizon glow stays on the horizon
         sun.position.set(camera.position.x * 0.3, 7.5 + t2 * 3, camZ - 95);
 
-        renderer.render(scene, camera);
+        // Bloom breathes: stronger toward the green "profit zone" + on fast scroll
+        if (bloomPass) {
+            const base = isMobile ? 0.85 : 1.15;
+            bloomPass.strength = base + t2 * 0.5 + scrollEnergy * 0.35;
+        }
+
+        if (composer) composer.render();
+        else renderer.render(scene, camera);
 
         if (firstFrame) {
             firstFrame = false;
