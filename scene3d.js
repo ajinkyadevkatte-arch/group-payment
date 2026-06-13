@@ -98,10 +98,10 @@
 
             // soft center lift + gentle vignette so text stays readable
             float vig = smoothstep(1.15, 0.15, length(uv));
-            col *= 0.55 + 0.55*vig;
+            col *= 0.42 + 0.5*vig;
 
-            // overall intensity: subtle, lifts a touch in the profit zone
-            col *= 0.62 + s2*0.25 + u_energy*0.15;
+            // overall intensity: kept low so foreground text always wins
+            col *= 0.42 + s2*0.18 + u_energy*0.12;
 
             gl_FragColor = vec4(col, 1.0);
         }

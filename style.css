@@ -5,8 +5,8 @@
     --bg: #0a0a0f;
     --bg-card: rgba(255,255,255,0.04);
     --bg-card-hover: rgba(255,255,255,0.07);
-    --text: #e4e4e7;
-    --text-muted: #71717a;
+    --text: #ececf0;
+    --text-muted: #a1a1ad;
     --accent: #6d5cff;
     --accent2: #00e5a0;
     --accent-glow: rgba(109,92,255,0.4);
@@ -1342,12 +1342,12 @@ body.has-promo { padding-top: 38px; }
     pointer-events: none;
     display: none;
     background:
-        radial-gradient(ellipse at 50% 30%, transparent 0%, rgba(10,10,15,0.35) 70%, rgba(10,10,15,0.7) 100%),
-        linear-gradient(180deg, rgba(10,10,15,0.15) 0%, transparent 30%, transparent 70%, rgba(10,10,15,0.4) 100%);
+        radial-gradient(ellipse at 50% 32%, rgba(10,10,15,0.18) 0%, rgba(10,10,15,0.55) 62%, rgba(10,10,15,0.82) 100%),
+        linear-gradient(180deg, rgba(10,10,15,0.45) 0%, rgba(10,10,15,0.25) 22%, rgba(10,10,15,0.25) 72%, rgba(10,10,15,0.6) 100%);
 }
 body.has-3d .bg3d-vignette { display: block; }
-body.has-3d .bg-grid { opacity: 0.4; }
-body.has-3d .glow { opacity: 0.18; }
+body.has-3d .bg-grid { opacity: 0.3; }
+body.has-3d .glow { opacity: 0.12; }
 
 /* ===== OVERSIZED STATEMENT TYPOGRAPHY ===== */
 .statement {
@@ -1672,4 +1672,17 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 600px) {
     .cta-final { padding: 90px 0 80px; }
     .cta-circle { width: 140px; height: 140px; }
+}
+
+/* ===== READABILITY OVER ANIMATED BG ===== */
+body.has-3d .hero-subtitle,
+body.has-3d .section-header p,
+body.has-3d .cta-final-sub,
+body.has-3d .statement-sub {
+    text-shadow: 0 1px 18px rgba(8,8,12,0.85), 0 1px 3px rgba(8,8,12,0.9);
+}
+body.has-3d .hero-title,
+body.has-3d .section-header h2,
+body.has-3d .cta-final-title {
+    text-shadow: 0 2px 30px rgba(8,8,12,0.7);
 }
