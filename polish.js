@@ -233,6 +233,34 @@
         })();
     })();
 
+    /* ---------------- MAGNETIC BUTTONS ---------------- */
+    // Buttons gently pull toward the cursor — the Obys/studio signature.
+    (function magnetic() {
+        if (touch || reduced) return;
+        const els = document.querySelectorAll('.cta-circle, .btn-primary, .nav-cta');
+        els.forEach(el => {
+            const strength = el.classList.contains('cta-circle') ? 0.35 : 0.22;
+            let raf = null;
+            function move(e) {
+                const r = el.getBoundingClientRect();
+                const x = e.clientX - (r.left + r.width / 2);
+                const y = e.clientY - (r.top + r.height / 2);
+                if (raf) cancelAnimationFrame(raf);
+                raf = requestAnimationFrame(() => {
+                    el.style.transform = 'translate(' + (x * strength) + 'px,' + (y * strength) + 'px)';
+                });
+            }
+            function reset() {
+                if (raf) cancelAnimationFrame(raf);
+                el.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+                el.style.transform = 'translate(0,0)';
+                setTimeout(() => { el.style.transition = ''; }, 500);
+            }
+            el.addEventListener('mousemove', move);
+            el.addEventListener('mouseleave', reset);
+        });
+    })();
+
     /* ---------------- TEXT SCRAMBLE (nav hover) ---------------- */
     (function scramble() {
         if (touch || reduced) return;
