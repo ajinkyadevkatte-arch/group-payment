@@ -1537,3 +1537,78 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: clip; }
+
+/* ===== EDITORIAL MOTION LAYER ===== */
+
+/* Section index numbers (01 — / 02 —) */
+.section-header { position: relative; }
+.sec-index {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    opacity: 0.65;
+    margin-bottom: 10px;
+}
+.sec-index::after { content: ' —'; color: var(--text-muted); }
+
+/* Hero scroll cue */
+.scroll-cue {
+    position: absolute;
+    bottom: 26px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 3; pointer-events: none;
+}
+.scroll-cue.cue-hide { opacity: 0; transform: translate(-50%, 14px); }
+.scroll-cue-text {
+    font-size: 10px; letter-spacing: 4px; font-weight: 600;
+    color: var(--text-muted); text-transform: uppercase;
+    writing-mode: vertical-rl;
+}
+.scroll-cue-line {
+    width: 1px; height: 50px; background: rgba(255,255,255,0.12);
+    position: relative; overflow: hidden; border-radius: 2px;
+}
+.scroll-cue-line i {
+    position: absolute; top: -50%; left: 0; width: 100%; height: 50%;
+    background: linear-gradient(180deg, transparent, var(--accent2));
+    animation: cue-run 1.8s cubic-bezier(0.7,0,0.3,1) infinite;
+}
+@keyframes cue-run { 0% { top: -55%; } 100% { top: 105%; } }
+@media (max-width: 900px) { .scroll-cue { display: none; } }
+
+/* Clip-path image reveal (proof screenshots) */
+.proof-card.img-reveal {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 1s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.proof-card.img-reveal.img-revealed { clip-path: inset(0 0 0% 0); }
+.proof-card.img-reveal img { transition: transform 1.1s cubic-bezier(0.7,0,0.2,1); transform: scale(1.18); }
+.proof-card.img-reveal.img-revealed img { transform: scale(1); }
+
+/* Animated underline links (nav + footer) — line wipes in on hover */
+.nav-links a, .footer-links a {
+    position: relative;
+    display: inline-block;
+}
+.nav-links a::after, .footer-links a::after {
+    content: '';
+    position: absolute; left: 0; bottom: -3px;
+    width: 100%; height: 1.5px;
+    background: var(--gradient);
+    transform: scaleX(0); transform-origin: right;
+    transition: transform 0.45s cubic-bezier(0.7,0,0.2,1);
+}
+.nav-links a:hover::after, .footer-links a:hover::after {
+    transform: scaleX(1); transform-origin: left;
+}
+
+/* Button hover fill-sweep + arrow nudge */
+.btn-primary, .nav-cta, .plan-subscribe-btn {
+    position: relative; overflow: hidden;
+}
+.btn-primary svg, .plan-subscribe-btn svg { transition: transform 0.35s cubic-bezier(0.7,0,0.2,1); }
+.btn-primary:hover svg, .plan-subscribe-btn:hover svg { transform: translateX(5px); }
