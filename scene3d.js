@@ -142,12 +142,20 @@
 
     let prev = performance.now();
     let first = true;
+    // Mobile: cap to ~30fps to halve GPU load + save battery (most users
+    // are on phones — smoothness of the whole page matters more than 60fps
+    // on a background). Desktop runs full rate.
+    const FRAME_MIN = isMobile ? (1000 / 30) : 0;
+    let lastDraw = 0;
     function loop(now) {
         if (!running) return;
         requestAnimationFrame(loop);
 
         const modalOpen = document.querySelector('.modal-overlay.active, .exit-overlay.active, .lightbox-overlay.active');
         if (modalOpen) { prev = now; return; }
+
+        if (FRAME_MIN && (now - lastDraw) < FRAME_MIN) return; // throttle
+        lastDraw = now;
 
         const dt = Math.min(0.05, (now - prev) / 1000 || 0.016);
         prev = now;

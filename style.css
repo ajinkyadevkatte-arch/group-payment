@@ -1686,3 +1686,9 @@ body.has-3d .section-header h2,
 body.has-3d .cta-final-title {
     text-shadow: 0 2px 30px rgba(8,8,12,0.7);
 }
+
+/* ===== MOBILE PERF: stop infinite grain repaint, lighten layers ===== */
+@media (max-width: 768px) {
+    .grain { animation: none; opacity: 0.28; }
+    body.has-3d .bg-grid { opacity: 0.22; }
+}
