@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=32">
+    <link rel="stylesheet" href="style.css?v=33">
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 
@@ -307,35 +307,19 @@
                 <h2>Real <span class="gradient-text">Proven Results</span></h2>
                 <p>Don't just take our word for it — see actual screenshots from our trades. Click to zoom.</p>
             </div>
-            <div class="proof-ticker">
-                <div class="ticker-track-img">
-                    <div class="proof-card" onclick="openProof('proof/1.jpg')"><img src="proof/1.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/2.jpg')"><img src="proof/2.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/3.jpg')"><img src="proof/3.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/4.jpg')"><img src="proof/4.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/5.jpg')"><img src="proof/5.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/6.jpg')"><img src="proof/6.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/7.jpg')"><img src="proof/7.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/8.jpg')"><img src="proof/8.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/9.png')"><img src="proof/9.png" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/10.jpg')"><img src="proof/10.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/11.jpg')"><img src="proof/11.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/photo_2026-05-11_20-20-19.jpg')"><img src="proof/photo_2026-05-11_20-20-19.jpg" alt="Proof"></div>
-                    <!-- Duplicate for seamless loop -->
-                    <div class="proof-card" onclick="openProof('proof/1.jpg')"><img src="proof/1.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/2.jpg')"><img src="proof/2.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/3.jpg')"><img src="proof/3.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/4.jpg')"><img src="proof/4.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/5.jpg')"><img src="proof/5.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/6.jpg')"><img src="proof/6.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/7.jpg')"><img src="proof/7.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/8.jpg')"><img src="proof/8.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/9.png')"><img src="proof/9.png" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/10.jpg')"><img src="proof/10.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/11.jpg')"><img src="proof/11.jpg" alt="Proof"></div>
-                    <div class="proof-card" onclick="openProof('proof/photo_2026-05-11_20-20-19.jpg')"><img src="proof/photo_2026-05-11_20-20-19.jpg" alt="Proof"></div>
-                </div>
+            <!-- Scroll-driven arc gallery -->
+            <div class="arc-gallery" id="arcGallery">
+                <div class="arc-img" onclick="openProof('proof/1.jpg')"><img src="proof/1.jpg" alt="Booked trade screenshot" loading="lazy"></div>
+                <div class="arc-img" onclick="openProof('proof/2.jpg')"><img src="proof/2.jpg" alt="Booked trade screenshot" loading="lazy"></div>
+                <div class="arc-img" onclick="openProof('proof/3.jpg')"><img src="proof/3.jpg" alt="Booked trade screenshot" loading="lazy"></div>
+                <div class="arc-img" onclick="openProof('proof/4.jpg')"><img src="proof/4.jpg" alt="Booked trade screenshot" loading="lazy"></div>
+                <div class="arc-img" onclick="openProof('proof/5.jpg')"><img src="proof/5.jpg" alt="Booked trade screenshot" loading="lazy"></div>
+                <div class="arc-img" onclick="openProof('proof/6.jpg')"><img src="proof/6.jpg" alt="Booked trade screenshot" loading="lazy"></div>
+                <div class="arc-img" onclick="openProof('proof/7.jpg')"><img src="proof/7.jpg" alt="Booked trade screenshot" loading="lazy"></div>
+                <div class="arc-img" onclick="openProof('proof/8.jpg')"><img src="proof/8.jpg" alt="Booked trade screenshot" loading="lazy"></div>
+                <span class="arc-dot"></span>
             </div>
+            <p class="arc-caption">Real booked trades — tap any screenshot to zoom 🔍</p>
         </div>
     </section>
 
@@ -980,6 +964,7 @@
     <script src="scene3d.js?v=7" defer></script>
     <script src="polish.js?v=3" defer></script>
     <script src="editorial.js?v=2" defer></script>
+    <script src="arc.js?v=2" defer></script>
 </body>
 
 </html>

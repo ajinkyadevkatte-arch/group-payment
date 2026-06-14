@@ -1706,3 +1706,48 @@ body.has-3d .cta-final-title {
     margin-top: 14px;
     letter-spacing: 0.3px;
 }
+
+/* ===== SCROLL-DRIVEN ARC GALLERY ===== */
+.results { overflow: visible; }
+.arc-gallery {
+    position: relative;
+    height: 76vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: visible;
+}
+.arc-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 150px;
+    cursor: pointer;
+    will-change: transform;
+    transition: filter 0.3s ease;
+}
+.arc-img img {
+    width: 100%; height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+    display: block;
+    background: #12121a;
+}
+.arc-img:hover { filter: brightness(1.08); z-index: 5; }
+.arc-dot {
+    position: absolute;
+    left: 50%; top: 56%;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 16px rgba(0,229,160,0.8);
+    transform: translate(-50%, -50%);
+}
+.arc-caption {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+@media (max-width: 768px) {
+    .arc-gallery { height: 58vh; }
+    .arc-img { width: 104px; }
+}
