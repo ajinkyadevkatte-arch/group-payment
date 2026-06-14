@@ -1692,3 +1692,17 @@ body.has-3d .cta-final-title {
     .grain { animation: none; opacity: 0.28; }
     body.has-3d .bg-grid { opacity: 0.22; }
 }
+
+/* ===== SAFETY: proof images always visible (clip-reveal retired) ===== */
+.proof-card.img-reveal { clip-path: none !important; }
+.proof-card.img-reveal img { transform: none !important; }
+
+/* ===== SMALL INSPIRATION CREDIT ===== */
+.site-credit {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    opacity: 0.6;
+    margin-top: 14px;
+    letter-spacing: 0.3px;
+}

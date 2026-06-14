@@ -38,23 +38,10 @@
         });
     })();
 
-    /* ---------- 3. CLIP-PATH IMAGE REVEALS ---------- */
-    // Proof screenshots wipe open as they enter (only the non-duplicated
-    // first set; the marquee duplicates are skipped to avoid double work).
-    (function imageReveal() {
-        if (reduced) return;
-        const imgs = document.querySelectorAll('.proof-card');
-        if (!imgs.length) return;
-        const io = new IntersectionObserver(entries => {
-            entries.forEach(en => {
-                if (en.isIntersecting) {
-                    en.target.classList.add('img-revealed');
-                    io.unobserve(en.target);
-                }
-            });
-        }, { threshold: 0.2 });
-        imgs.forEach(c => { c.classList.add('img-reveal'); io.observe(c); });
-    })();
+    /* ---------- 3. (removed) proof clip-reveal ----------
+       Proof screenshots live in a horizontal auto-scrolling ticker, so a
+       scroll-into-view clip reveal left off-screen cards permanently
+       hidden. They now simply display in the ticker as intended. */
 
     /* ---------- 4. HERO SCROLL CUE auto-hide on scroll ---------- */
     (function scrollCue() {
