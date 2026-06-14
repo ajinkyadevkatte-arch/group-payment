@@ -43,9 +43,17 @@
             const ang = deg * Math.PI / 180;
             const x = cx + R * Math.cos(ang) - w / 2;
             const y = cy - R * Math.sin(ang) - h / 2;
-            const tilt = (90 - deg) * 0.5;                   // outward tilt
+            const tilt = (90 - deg) * 0.42;                  // gentle outward tilt
+
+            // depth: cards near the top-centre are bigger, brighter, in front
+            const centre = Math.max(0, 1 - Math.abs(deg - 90) / (spread / 2));
+            const scale  = 0.82 + 0.30 * centre;
+            const op     = 0.55 + 0.45 * centre;
+
             el.style.transform =
-                'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) rotate(' + tilt.toFixed(1) + 'deg)';
+                'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) rotate(' + tilt.toFixed(1) + 'deg) scale(' + scale.toFixed(3) + ')';
+            el.style.opacity = op.toFixed(3);
+            el.style.zIndex  = String(Math.round(centre * 100));
         });
     }
 

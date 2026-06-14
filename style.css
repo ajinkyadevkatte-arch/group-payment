@@ -1751,3 +1751,26 @@ body.has-3d .cta-final-title {
     .arc-gallery { height: 58vh; }
     .arc-img { width: 104px; }
 }
+
+/* ===== ARC GALLERY v2 — uniform premium cards + depth (overrides) ===== */
+.arc-gallery { height: 72vh; max-width: 1120px; }
+.arc-img {
+    width: 168px; height: 212px;          /* fixed, uniform — no collapse/uneven */
+    will-change: transform, opacity;
+    transition: filter 0.3s ease;
+}
+.arc-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;                      /* every tile identical & clean */
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 26px 70px rgba(0,0,0,0.6);
+    background: #12121a;
+    display: block;
+}
+.arc-img:hover { filter: brightness(1.1); }
+.arc-img:hover img { border-color: var(--accent2); }
+@media (max-width: 768px) {
+    .arc-gallery { height: 56vh; }
+    .arc-img { width: 120px; height: 152px; }
+}
