@@ -1922,3 +1922,46 @@ body.has-3d .cta-final-title {
     .bull-points { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .bull-point { padding: 14px 10px; font-size: 12.5px; }
 }
+
+/* ===== 3D CHARGING BULL (Sketchfab embed) ===== */
+.bull3d-section { padding: 100px 0; }
+.bull3d-frame {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 10;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    background: radial-gradient(circle at 50% 42%, rgba(0,229,160,0.08), transparent 70%);
+}
+.bull3d-frame iframe { width: 100%; height: 100%; display: block; border: 0; }
+.bull3d-credit { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 12px; }
+.bull3d-credit a { color: var(--accent); text-decoration: none; }
+.bull3d-credit a:hover { text-decoration: underline; }
+.bull3d-points {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 900px;
+    margin: 34px auto 0;
+}
+.bull3d-point {
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    padding: 16px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    font-size: 13.5px; font-weight: 600; color: var(--text);
+    text-align: center;
+    transition: border-color 0.3s;
+}
+.bull3d-point:hover { border-color: var(--accent2); }
+.bull3d-point span { font-size: 20px; }
+@media (max-width: 700px) {
+    .bull3d-section { padding: 70px 0; }
+    .bull3d-frame { aspect-ratio: 4 / 3; }
+    .bull3d-points { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .bull3d-point { padding: 13px 10px; font-size: 12.5px; }
+}
